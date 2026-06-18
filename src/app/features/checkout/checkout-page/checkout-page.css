@@ -1,0 +1,4 @@
+/* Custom checkout layout styles */
+:host {
+  display: block;
+}

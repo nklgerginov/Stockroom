@@ -1,0 +1,310 @@
+<section class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+  <div class="mb-6">
+    <a
+      routerLink="/cart"
+      class="inline-flex items-center gap-2 text-sm font-medium text-stone-500 transition hover:text-brand-600"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+      </svg>
+      Back to cart
+    </a>
+  </div>
+
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold tracking-tight text-stone-900">Secure checkout</h1>
+    <p class="mt-2 text-stone-600">Please provide your details below to place your order.</p>
+  </div>
+
+  <div class="grid gap-8 lg:grid-cols-5">
+    <!-- Form Area -->
+    <div class="lg:col-span-3">
+      <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        
+        <!-- Contact Information -->
+        <fieldset class="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+          <legend class="text-lg font-bold text-stone-900 px-2">Contact Information</legend>
+          <div class="mt-4 space-y-4">
+            <div>
+              <label for="email" class="block text-sm font-semibold text-stone-700">Email Address</label>
+              <input
+                id="email"
+                type="email"
+                formControlName="email"
+                placeholder="you@example.com"
+                class="mt-1.5 w-full rounded-xl border bg-white px-4 py-3 text-sm shadow-sm outline-none transition"
+                [class.border-stone-200]="!isInvalid('email')"
+                [class.focus:border-brand-500]="!isInvalid('email')"
+                [class.focus:ring-brand-100]="!isInvalid('email')"
+                [class.focus:ring-2]="!isInvalid('email')"
+                [class.border-red-500]="isInvalid('email')"
+                [class.focus:border-red-500]="isInvalid('email')"
+                [class.focus:ring-red-100]="isInvalid('email')"
+                [class.focus:ring-2]="isInvalid('email')"
+              />
+              @if (isInvalid('email')) {
+                <p class="mt-1.5 text-xs font-medium text-red-600">{{ getErrorMessage('email') }}</p>
+              }
+            </div>
+            
+            <div>
+              <label for="fullName" class="block text-sm font-semibold text-stone-700">Full Name</label>
+              <input
+                id="fullName"
+                type="text"
+                formControlName="fullName"
+                placeholder="John Doe"
+                class="mt-1.5 w-full rounded-xl border bg-white px-4 py-3 text-sm shadow-sm outline-none transition"
+                [class.border-stone-200]="!isInvalid('fullName')"
+                [class.focus:border-brand-500]="!isInvalid('fullName')"
+                [class.focus:ring-brand-100]="!isInvalid('fullName')"
+                [class.focus:ring-2]="!isInvalid('fullName')"
+                [class.border-red-500]="isInvalid('fullName')"
+                [class.focus:border-red-500]="isInvalid('fullName')"
+                [class.focus:ring-red-100]="isInvalid('fullName')"
+                [class.focus:ring-2]="isInvalid('fullName')"
+              />
+              @if (isInvalid('fullName')) {
+                <p class="mt-1.5 text-xs font-medium text-red-600">{{ getErrorMessage('fullName') }}</p>
+              }
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Shipping Details -->
+        <fieldset class="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+          <legend class="text-lg font-bold text-stone-900 px-2">Shipping Details</legend>
+          <div class="mt-4 space-y-4">
+            <div>
+              <label for="address" class="block text-sm font-semibold text-stone-700">Street Address</label>
+              <input
+                id="address"
+                type="text"
+                formControlName="address"
+                placeholder="123 Main St"
+                class="mt-1.5 w-full rounded-xl border bg-white px-4 py-3 text-sm shadow-sm outline-none transition"
+                [class.border-stone-200]="!isInvalid('address')"
+                [class.focus:border-brand-500]="!isInvalid('address')"
+                [class.focus:ring-brand-100]="!isInvalid('address')"
+                [class.focus:ring-2]="!isInvalid('address')"
+                [class.border-red-500]="isInvalid('address')"
+                [class.focus:border-red-500]="isInvalid('address')"
+                [class.focus:ring-red-100]="isInvalid('address')"
+                [class.focus:ring-2]="isInvalid('address')"
+              />
+              @if (isInvalid('address')) {
+                <p class="mt-1.5 text-xs font-medium text-red-600">{{ getErrorMessage('address') }}</p>
+              }
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="city" class="block text-sm font-semibold text-stone-700">City</label>
+                <input
+                  id="city"
+                  type="text"
+                  formControlName="city"
+                  placeholder="San Francisco"
+                  class="mt-1.5 w-full rounded-xl border bg-white px-4 py-3 text-sm shadow-sm outline-none transition"
+                  [class.border-stone-200]="!isInvalid('city')"
+                  [class.focus:border-brand-500]="!isInvalid('city')"
+                  [class.focus:ring-brand-100]="!isInvalid('city')"
+                  [class.focus:ring-2]="!isInvalid('city')"
+                  [class.border-red-500]="isInvalid('city')"
+                  [class.focus:border-red-500]="isInvalid('city')"
+                  [class.focus:ring-red-100]="isInvalid('city')"
+                  [class.focus:ring-2]="isInvalid('city')"
+                />
+                @if (isInvalid('city')) {
+                  <p class="mt-1.5 text-xs font-medium text-red-600">{{ getErrorMessage('city') }}</p>
+                }
+              </div>
+
+              <div>
+                <label for="zipCode" class="block text-sm font-semibold text-stone-700">ZIP Code</label>
+                <input
+                  id="zipCode"
+                  type="text"
+                  formControlName="zipCode"
+                  placeholder="94103"
+                  class="mt-1.5 w-full rounded-xl border bg-white px-4 py-3 text-sm shadow-sm outline-none transition"
+                  [class.border-stone-200]="!isInvalid('zipCode')"
+                  [class.focus:border-brand-500]="!isInvalid('zipCode')"
+                  [class.focus:ring-brand-100]="!isInvalid('zipCode')"
+                  [class.focus:ring-2]="!isInvalid('zipCode')"
+                  [class.border-red-500]="isInvalid('zipCode')"
+                  [class.focus:border-red-500]="isInvalid('zipCode')"
+                  [class.focus:ring-red-100]="isInvalid('zipCode')"
+                  [class.focus:ring-2]="isInvalid('zipCode')"
+                />
+                @if (isInvalid('zipCode')) {
+                  <p class="mt-1.5 text-xs font-medium text-red-600">{{ getErrorMessage('zipCode') }}</p>
+                }
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Payment Method -->
+        <fieldset class="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+          <legend class="text-lg font-bold text-stone-900 px-2">Payment Details</legend>
+          <div class="mt-4 space-y-4">
+            <div>
+              <label for="cardNumber" class="block text-sm font-semibold text-stone-700">Card Number</label>
+              <div class="relative">
+                <input
+                  id="cardNumber"
+                  type="text"
+                  formControlName="cardNumber"
+                  placeholder="1234567812345678"
+                  maxlength="16"
+                  class="mt-1.5 w-full rounded-xl border bg-white px-4 py-3 pr-10 text-sm shadow-sm outline-none transition"
+                  [class.border-stone-200]="!isInvalid('cardNumber')"
+                  [class.focus:border-brand-500]="!isInvalid('cardNumber')"
+                  [class.focus:ring-brand-100]="!isInvalid('cardNumber')"
+                  [class.focus:ring-2]="!isInvalid('cardNumber')"
+                  [class.border-red-500]="isInvalid('cardNumber')"
+                  [class.focus:border-red-500]="isInvalid('cardNumber')"
+                  [class.focus:ring-red-100]="isInvalid('cardNumber')"
+                  [class.focus:ring-2]="isInvalid('cardNumber')"
+                />
+                <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+                </svg>
+              </div>
+              @if (isInvalid('cardNumber')) {
+                <p class="mt-1.5 text-xs font-medium text-red-600">{{ getErrorMessage('cardNumber') }}</p>
+              }
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="cardExpiry" class="block text-sm font-semibold text-stone-700">Expiry Date</label>
+                <input
+                  id="cardExpiry"
+                  type="text"
+                  formControlName="cardExpiry"
+                  placeholder="MM/YY"
+                  maxlength="5"
+                  class="mt-1.5 w-full rounded-xl border bg-white px-4 py-3 text-sm shadow-sm outline-none transition"
+                  [class.border-stone-200]="!isInvalid('cardExpiry')"
+                  [class.focus:border-brand-500]="!isInvalid('cardExpiry')"
+                  [class.focus:ring-brand-100]="!isInvalid('cardExpiry')"
+                  [class.focus:ring-2]="!isInvalid('cardExpiry')"
+                  [class.border-red-500]="isInvalid('cardExpiry')"
+                  [class.focus:border-red-500]="isInvalid('cardExpiry')"
+                  [class.focus:ring-red-100]="isInvalid('cardExpiry')"
+                  [class.focus:ring-2]="isInvalid('cardExpiry')"
+                />
+                @if (isInvalid('cardExpiry')) {
+                  <p class="mt-1.5 text-xs font-medium text-red-600">{{ getErrorMessage('cardExpiry') }}</p>
+                }
+              </div>
+
+              <div>
+                <label for="cardCvc" class="block text-sm font-semibold text-stone-700">CVC</label>
+                <input
+                  id="cardCvc"
+                  type="password"
+                  formControlName="cardCvc"
+                  placeholder="123"
+                  maxlength="4"
+                  class="mt-1.5 w-full rounded-xl border bg-white px-4 py-3 text-sm shadow-sm outline-none transition"
+                  [class.border-stone-200]="!isInvalid('cardCvc')"
+                  [class.focus:border-brand-500]="!isInvalid('cardCvc')"
+                  [class.focus:ring-brand-100]="!isInvalid('cardCvc')"
+                  [class.focus:ring-2]="!isInvalid('cardCvc')"
+                  [class.border-red-500]="isInvalid('cardCvc')"
+                  [class.focus:border-red-500]="isInvalid('cardCvc')"
+                  [class.focus:ring-red-100]="isInvalid('cardCvc')"
+                  [class.focus:ring-2]="isInvalid('cardCvc')"
+                />
+                @if (isInvalid('cardCvc')) {
+                  <p class="mt-1.5 text-xs font-medium text-red-600">{{ getErrorMessage('cardCvc') }}</p>
+                }
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          [disabled]="isSubmitting() || checkoutForm.invalid"
+          class="w-full flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-6 py-4 text-base font-semibold text-white shadow-md transition hover:bg-brand-700 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none"
+        >
+          @if (isSubmitting()) {
+            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Processing your payment...
+          } @else {
+            Place Order ({{ cartService.total() | currency }})
+          }
+        </button>
+      </form>
+    </div>
+
+    <!-- Sidebar Order Summary -->
+    <div class="lg:col-span-2">
+      <aside class="sticky top-24 space-y-6">
+        <div class="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+          <h2 class="text-lg font-bold text-stone-900 border-b border-stone-100 pb-3">Order summary</h2>
+          
+          <div class="mt-4 max-h-[400px] overflow-y-auto pr-1 space-y-4">
+            @for (item of cartService.items(); track item.product.id) {
+              <div class="flex gap-4">
+                <div class="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-stone-100 bg-stone-50 p-1">
+                  <img
+                    [src]="item.product.image"
+                    [alt]="item.product.title"
+                    class="h-full w-full object-contain"
+                  />
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h3 class="line-clamp-2 text-sm font-semibold text-stone-900">
+                    {{ item.product.title }}
+                  </h3>
+                  <p class="mt-1 text-xs text-stone-500">Qty: {{ item.quantity }}</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-sm font-bold text-stone-900">
+                    {{ (item.product.price * item.quantity) | currency }}
+                  </p>
+                </div>
+              </div>
+            }
+          </div>
+
+          <dl class="mt-6 border-t border-stone-100 pt-4 space-y-3 text-sm">
+            <div class="flex justify-between text-stone-600">
+              <dt>Subtotal</dt>
+              <dd class="font-medium text-stone-900">{{ cartService.total() | currency }}</dd>
+            </div>
+            <div class="flex justify-between text-stone-600">
+              <dt>Shipping</dt>
+              <dd class="font-medium text-stone-900">Free</dd>
+            </div>
+            <div class="border-t border-stone-100 pt-3">
+              <div class="flex justify-between text-base font-bold text-stone-900">
+                <dt>Total</dt>
+                <dd>{{ cartService.total() | currency }}</dd>
+              </div>
+            </div>
+          </dl>
+        </div>
+
+        <div class="rounded-2xl bg-stone-100 p-4 flex gap-3 items-start text-xs text-stone-600">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+          </svg>
+          <div>
+            <p class="font-bold text-stone-900">Secure 256-bit SSL checkout</p>
+            <p class="mt-0.5">Your personal and financial information is fully encrypted and protected.</p>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
