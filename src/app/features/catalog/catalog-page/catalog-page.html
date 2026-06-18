@@ -1,0 +1,83 @@
+<section class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold tracking-tight text-stone-900">Browse products</h1>
+    <p class="mt-2 text-stone-600">
+      Discover quality items across every category — powered by live API data.
+    </p>
+  </div>
+
+  <div class="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+    <div class="relative max-w-md flex-1">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-stone-400"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="1.5"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+        />
+      </svg>
+      <input
+        type="search"
+        [ngModel]="searchQuery()"
+        (ngModelChange)="onSearchChange($event)"
+        placeholder="Search products..."
+        class="w-full rounded-xl border border-stone-200 bg-white py-3 pl-10 pr-4 text-sm shadow-sm outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+      />
+    </div>
+
+    <p class="text-sm text-stone-500">
+      {{ filteredProducts().length }} product{{ filteredProducts().length === 1 ? '' : 's' }}
+    </p>
+  </div>
+
+  <div class="mb-8 flex flex-wrap gap-2">
+    <button
+      type="button"
+      (click)="selectCategory('all')"
+      [class]="categoryButtonClass('all')"
+    >
+      All
+    </button>
+    @for (category of categories(); track category) {
+      <button
+        type="button"
+        (click)="selectCategory(category)"
+        [class]="categoryButtonClass(category)"
+      >
+        {{ category }}
+      </button>
+    }
+  </div>
+
+  @if (loading()) {
+    <app-loading-spinner message="Loading products..." />
+  } @else if (error()) {
+    <app-error-message [message]="error()!" [showRetry]="true" (retry)="retry()" />
+  } @else if (filteredProducts().length === 0) {
+    <div class="rounded-2xl border border-stone-200 bg-white p-12 text-center">
+      <p class="text-lg font-semibold text-stone-900">No products found</p>
+      <p class="mt-2 text-sm text-stone-500">Try adjusting your search or category filter.</p>
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      @for (product of filteredProducts(); track product.id) {
+        <app-product-card [product]="product" (addToCart)="addToCart($event)" />
+      }
+    </div>
+  }
+</section>
+
+@if (toastMessage()) {
+  <div
+    class="fixed bottom-6 right-6 z-50 rounded-xl bg-stone-900 px-4 py-3 text-sm font-medium text-white shadow-lg"
+    role="status"
+  >
+    {{ toastMessage() }}
+  </div>
+}
