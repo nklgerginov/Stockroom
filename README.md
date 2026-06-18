@@ -74,6 +74,12 @@ npm install
 npm start
 ```
 
+or with the Angular CLI:
+
+```bash
+ng serve
+```
+
 Open `http://localhost:4200/` in your browser.
 
 ### Build for production
@@ -87,6 +93,30 @@ npm run build
 ```bash
 npm test
 ```
+
+### Run end-to-end tests
+
+```bash
+ng e2e
+```
+
+## Code scaffolding
+
+Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+
+```bash
+ng generate component component-name
+```
+
+For a complete list of available schematics, run:
+
+```bash
+ng generate --help
+```
+
+## Additional Resources
+
+For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
 
 ## Notes
 
