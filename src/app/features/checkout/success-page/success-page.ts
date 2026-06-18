@@ -2,6 +2,8 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { CartService } from '../../../core/services/cart.service';
 
+const ORDER_STATE_KEY = 'stockroom-last-order';
+
 export interface OrderDetails {
   orderNumber: string;
   customerName: string;
@@ -24,17 +26,33 @@ export class SuccessPage implements OnInit {
   protected readonly order = signal<OrderDetails | null>(null);
 
   ngOnInit(): void {
-    // Read state passed from router navigation
     const navigation = this.router.getCurrentNavigation();
     const state = (navigation?.extras.state || history.state) as { order?: OrderDetails };
+    const order = state?.order ?? this.loadOrderState();
 
-    if (state && state.order) {
-      this.order.set(state.order);
-      // Success! Clear the cart so the user can start a new shopping session
+    if (order) {
+      this.order.set(order);
       this.cartService.clearCart();
+      this.clearOrderState();
     } else {
-      // If someone lands on /success directly without ordering, redirect to catalog
       this.router.navigate(['/catalog']);
+    }
+  }
+
+  private loadOrderState(): OrderDetails | null {
+    try {
+      const raw = sessionStorage.getItem(ORDER_STATE_KEY);
+      return raw ? (JSON.parse(raw) as OrderDetails) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  private clearOrderState(): void {
+    try {
+      sessionStorage.removeItem(ORDER_STATE_KEY);
+    } catch {
+      // Ignore storage errors.
     }
   }
 }

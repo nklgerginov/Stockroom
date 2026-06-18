@@ -1,113 +1,93 @@
 # Stockroom
 
-An Angular-based e-commerce storefront that connects to a live product API, supporting full catalog browsing, cart management, and a complete checkout flow.
+Stockroom is a modern Angular storefront optimized for desktop and mobile shoppers.
+It provides a lean catalog experience, a fully functional shopping cart, and a secure checkout flow with client-side validation.
 
-## Features
+## Screenshots
 
-- **Product Catalog** — paginated grid of products fetched from [FakeStore API](https://fakestoreapi.com), with real-time search and category filtering.
-- **Product Detail** — dedicated view for each product with ratings, description, and an adjustable quantity selector.
-- **Shopping Cart** — persistent cart (backed by `localStorage`) with quantity controls, item removal, and order summary.
-- **Checkout** — multi-section form (contact, shipping, payment) with field-level reactive validation and a simulated order submission flow.
-- **Order Confirmation** — success page displaying the generated order number, itemized receipt, and total paid.
+![Catalog page](docs/catalog-screenshot.png)
 
-## Tech Stack
+![Cart page](docs/cart-screenshot.png)
 
-| Layer | Technology |
-|---|---|
-| Framework | Angular 22 (NgModule architecture) |
-| Language | TypeScript 6 |
-| State | Angular Signals (`signal`, `computed`) |
-| Forms | Reactive Forms (`FormBuilder`, `Validators`) |
-| HTTP | `HttpClient` with `withFetch()` |
-| Styling | Tailwind CSS v4 (PostCSS plugin) |
-| Typography | Inter (Google Fonts) |
-| Unit Tests | Vitest 4 via `@angular/build:unit-test` |
-| Build | Angular CLI / `@angular/build:application` |
+## What this app does
 
-## Architecture
+- Presents a searchable product catalog sourced from a remote API.
+- Supports item details and quantity selection.
+- Enables cart management with quantity adjustments, item removal, and local persistence.
+- Performs checkout validation and shows a confirmation screen with order details.
+
+## Core features
+
+- Product catalog with live filtering and category navigation.
+- Product detail page with image preview, pricing, and add-to-cart support.
+- Cart page with editable quantities and a clear order summary.
+- Checkout page with validated contact, shipping, and payment inputs.
+- Order confirmation with generated order number and receipt-style summary.
+
+## Tech stack
+
+- Angular 22
+- TypeScript 6
+- Angular Signals for local component/service state
+- Reactive Forms for checkout validation
+- Tailwind CSS v4 for UI styling
+- Vitest for unit testing
+
+## Project structure
 
 ```
 src/app/
-├── core/                       # Singleton services and domain models
+├── core/                       # Domain models and singleton services
 │   ├── models/
-│   │   ├── product.model.ts
-│   │   └── cart-item.model.ts
 │   └── services/
-│       ├── product.service.ts   # API communication + signal-based state
-│       └── cart.service.ts      # Cart operations + localStorage persistence
-├── features/                    # Lazy-loaded feature modules
-│   ├── catalog/                 # Product listing with search/filter
-│   ├── product-detail/          # Single product view
-│   ├── cart/                    # Shopping cart page
-│   └── checkout/                # Checkout form + order success page
-└── shared/                      # Reusable UI components
-    └── components/
-        ├── header/              # App header with cart badge
-        ├── product-card/        # Product grid card
-        ├── loading-spinner/     # Loading state indicator
-        └── error-message/       # Error display with retry action
+├── features/                   # Feature modules and route views
+│   ├── catalog/
+│   ├── product-detail/
+│   ├── cart/
+│   └── checkout/
+└── shared/                     # Shared UI components and common utilities
 ```
 
-Each feature module is lazy-loaded via the Angular router for optimal initial bundle size. Shared components are declared once in `SharedModule` and exported for use across all feature modules.
+## Checkout behavior
 
-### State Management
+- The cart page sends users to checkout only when items are present.
+- The checkout form validates required fields and common payment formats.
+- Order details are saved to session storage before navigation, so the confirmation page can recover if the browser is refreshed immediately after checkout.
+- The confirmation page clears the cart and renders a summary for the current order.
 
-Application state is managed through Angular Signals rather than external libraries like NgRx. The `ProductService` holds catalog data, loading/error flags, and filter state as writable signals, exposing read-only views and `computed` derived state (e.g. `filteredProducts`). The `CartService` follows the same pattern, persisting cart items to `localStorage` on every mutation.
+## Setup
 
-### Checkout Flow
+### Requirements
 
-1. User clicks **Checkout** from the cart page.
-2. `CheckoutPage.ngOnInit()` guards against empty carts by redirecting to the catalog.
-3. A reactive form collects contact, shipping, and payment details with synchronous validators (email format, ZIP pattern, card number length, expiry format).
-4. On valid submission, the component simulates a 1.5-second processing delay, then navigates to `/checkout/success` with order data passed via router state.
-5. `SuccessPage` reads the order from `history.state`, clears the cart, and renders the confirmation view.
+- Node.js 20 or newer
+- npm 10 or newer
 
-## Getting Started
-
-### Prerequisites
-
-- Node.js 20+ (LTS recommended)
-- npm 10+
-
-### Installation
+### Install
 
 ```bash
-git clone <repository-url>
-cd Stockroom
 npm install
 ```
 
-### Development Server
+### Run locally
 
 ```bash
 npm start
 ```
 
-Navigate to `http://localhost:4200/`. The app reloads automatically on file changes.
+Open `http://localhost:4200/` in your browser.
 
-### Production Build
+### Build for production
 
 ```bash
 npm run build
 ```
 
-Output is written to `dist/stockroom/`. The production build applies AOT compilation, tree-shaking, and content hashing.
-
-### Running Tests
+### Run tests
 
 ```bash
 npm test
 ```
 
-Runs the full Vitest suite. All tests execute in a jsdom environment without `zone.js`.
+## Notes
 
-## Project Conventions
-
-- **Module-per-feature** — each route is its own NgModule, lazy-loaded for code splitting.
-- **Signals over observables** — local component and service state uses signals; `HttpClient` observables are consumed at the service boundary and written into signals.
-- **Barrel-free imports** — components and services are imported by their direct file paths to keep dependency graphs explicit.
-- **Tailwind utility classes** — styling is applied inline via Tailwind v4 utilities; component `.css` files are reserved for host-level or keyframe declarations.
-
-## License
-
-This project is provided for educational purposes.
+This repository focuses on clean architecture for a small storefront app. It uses Angular's feature modules and reusable shared components to keep the codebase maintainable while preserving a polished customer checkout experience.

@@ -9,6 +9,7 @@
     "test": "ng test"
   },
   "private": true,
+  "description": "Stockroom is a modular Angular storefront with catalog browsing, cart management, and checkout flow.",
   "packageManager": "npm@10.9.2",
   "dependencies": {
     "@angular/common": "^22.0.2",

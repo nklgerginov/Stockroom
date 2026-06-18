@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CartService } from '../../../core/services/cart.service';
 
+const ORDER_STATE_KEY = 'stockroom-last-order';
+
 @Component({
   selector: 'app-checkout-page',
   standalone: false,
@@ -46,23 +48,31 @@ export class CheckoutPage implements OnInit {
       this.isSubmitting.set(false);
       
       const orderData = {
-        orderNumber: 'SR-' + Math.floor(100000 + Math.random() * 900000),
+        orderNumber: `SR-${Math.floor(100000 + Math.random() * 900000)}`,
         customerName: this.checkoutForm.value.fullName,
         email: this.checkoutForm.value.email,
         totalAmount: this.cartService.total(),
-        items: this.cartService.items().map(item => ({
+        items: this.cartService.items().map((item) => ({
           title: item.product.title,
           quantity: item.quantity,
           price: item.product.price,
         })),
-        date: new Date().toISOString()
+        date: new Date().toISOString(),
       };
 
-      // Navigate to success page, passing order data
+      this.saveOrderState(orderData);
       this.router.navigate(['/checkout/success'], {
-        state: { order: orderData }
+        state: { order: orderData },
       });
     }, 1500);
+  }
+
+  private saveOrderState(orderData: unknown): void {
+    try {
+      sessionStorage.setItem(ORDER_STATE_KEY, JSON.stringify(orderData));
+    } catch {
+      // Ignore storage errors in private browsing or restrictive environments.
+    }
   }
 
   // Form helper methods
